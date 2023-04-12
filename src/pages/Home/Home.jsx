@@ -1,26 +1,23 @@
 import { useState, useEffect } from "react";
 import Loader from "components/Loader/Loader";
 
-import {
-  Main,
-  Title,
-  ButtonsList,
-  Buttons,
-  MoviesList,
-  MovieItem,
-  MovieLink,
-  Poster,
-  MovieTitle,
-  LoadMoreBtn,
-} from "./Home.styled";
+import FilterButtons from "components/FilterButtons";
+import PopularMoviesList from "components/PopularMoviesList";
+import ErrorMessage from "components/ErrorMessage";
+
+import { Main, Title, LoadMoreBtn, UpBtn, UpBtnIcon } from "./Home.styled";
 
 import { searchPopularMovies } from "components/Api";
 
 const Home = () => {
   const [popularMovies, setPopularMovies] = useState([]);
+  const [moviesByDay, setMoviesByDay] = useState([]);
+  const [moviesByWeek, setMoviesByWeek] = useState([]);
+
   const [filter, setFilter] = useState("week");
   const [status, setStatus] = useState("loading");
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(2);
 
   useEffect(() => {
     const weekBtn = document.querySelector("[data-btn-week]");
@@ -42,18 +39,41 @@ const Home = () => {
   }, [filter]);
 
   useEffect(() => {
-    setStatus("loading");
-    searchPopularMovies(filter, page)
+    searchPopularMovies("week", 1)
+      .then((movies) => {
+        console.log(movies.data);
+        setMoviesByWeek(movies.data.results);
+        setPopularMovies(movies.data.results);
+        setStatus("good");
+      })
+      .catch(() => {
+        setMoviesByWeek([]);
+        setPopularMovies([]);
+        setStatus("error");
+      });
+
+    searchPopularMovies("day", 1)
       .then((movies) => {
         console.log(movies.data.results);
+        setMoviesByDay(movies.data.results);
+        setStatus("good");
+      })
+      .catch(() => {
+        setMoviesByDay([]);
+        setStatus("error");
+      });
+  }, []);
 
-        setTimeout(() => {
-          setPopularMovies((prevState) => [
-            ...prevState,
-            ...movies.data.results,
-          ]);
-          setStatus("good");
-        }, 1000);
+  useEffect(() => {
+    if (page === 1) return;
+
+    searchPopularMovies(filter, page)
+      .then((movies) => {
+        console.log(movies.data);
+
+        setTotalPages(movies.data.total_pages);
+        setPopularMovies((prevState) => [...prevState, ...movies.data.results]);
+        setStatus("good");
       })
       .catch(() => {
         console.log("error");
@@ -63,59 +83,46 @@ const Home = () => {
   const handleBtnFilter = (e) => {
     if (e.target.hasAttribute("data-btn-week")) {
       setFilter("week");
+
+      setPopularMovies(moviesByWeek);
     } else {
       setFilter("day");
+
+      setPopularMovies(moviesByDay);
     }
 
-    setPopularMovies([]);
     setPage(1);
   };
 
   const handleLoadMoreButton = () => {
     setPage(page + 1);
+    setStatus("loading");
+  };
+
+  const handleUpBtn = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
     <Main>
       <Title>Trending movies</Title>
-      <ButtonsList>
-        <li>
-          <Buttons onClick={handleBtnFilter} data-btn-week>
-            By week
-          </Buttons>
-        </li>
-        <li>
-          <Buttons onClick={handleBtnFilter} data-btn-day>
-            By dey
-          </Buttons>
-        </li>
-      </ButtonsList>
+      <FilterButtons handleBtnFilter={handleBtnFilter} />
+
+      {popularMovies && <PopularMoviesList popularMovies={popularMovies} />}
+
+      {status === "error" && <ErrorMessage />}
 
       {status === "loading" && <Loader />}
 
-      {popularMovies && (
-        <MoviesList>
-          {popularMovies.map((movie) => {
-            const { id } = movie;
-            const img = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
-            const linkTo = `/movies/${id}`;
-
-            return (
-              <MovieItem key={id}>
-                <MovieLink to={linkTo} type="button">
-                  <Poster src={img} alt="MoviePoster" />
-                  <MovieTitle>{movie.title}</MovieTitle>
-                </MovieLink>
-              </MovieItem>
-            );
-          })}
-        </MoviesList>
-      )}
-
-      {status !== "loading" && (
-        <LoadMoreBtn onClick={handleLoadMoreButton} type="button">
-          Load more
-        </LoadMoreBtn>
+      {status !== "loading" && status !== "error" && totalPages > page && (
+        <>
+          <LoadMoreBtn onClick={handleLoadMoreButton} type="button">
+            Load more
+          </LoadMoreBtn>
+          <UpBtn onClick={handleUpBtn} type="button">
+            <UpBtnIcon />
+          </UpBtn>
+        </>
       )}
     </Main>
   );

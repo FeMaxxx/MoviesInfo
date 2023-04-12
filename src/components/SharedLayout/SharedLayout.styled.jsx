@@ -7,14 +7,14 @@ const Container = styled.div`
   margin: 0 auto;
   max-width: 1300px;
 
-  border-right: 3px solid var(--primary-border-color);
-  border-left: 3px solid var(--primary-border-color);
+  border-right: 3px solid var(--primary-color);
+  border-left: 3px solid var(--primary-color);
 
-  box-shadow: inset 0px 0px 40px 2px var(--primary-border-color);
+  box-shadow: inset 0px 0px 40px 2px var(--primary-color);
 `;
 
 const Border = styled.div`
-  border-top: 3px solid var(--primary-border-color);
+  border-top: 3px solid var(--primary-color);
 `;
 
 const Header = styled.header``;
@@ -33,9 +33,9 @@ const Links = styled(NavLink)`
   width: 100px;
   height: 50px;
 
-  border: 3px solid var(--primary-border-color);
+  border: 3px solid #ffffff;
   border-radius: 50%;
-  box-shadow: 0px 10px 0px 2px var(--primary-border-color);
+  box-shadow: 0px 10px 0px 2px var(--primary-color);
 
   transition: transform var(--animation), box-shadow var(--animation);
 
@@ -49,18 +49,13 @@ const Links = styled(NavLink)`
   }
 
   &.active {
-    box-shadow: inset 0px 0px 2px 1px var(--primary-border-color);
-
-    &:hover {
-      box-shadow: inset 0px 0px 2px 1px var(--primary-border-color);
-
-      transform: none;
-    }
+    box-shadow: none;
+    transform: translateY(10px);
   }
 
   &:hover {
     box-shadow: none;
-    transform: translateY(10px) scale(1.02);
+    transform: translateY(10px);
   }
 `;
 
@@ -76,9 +71,9 @@ const HeaderLogo = styled.div`
 
   font-family: "TiltPrism";
   background-color: var(--primary-bg-color);
-  box-shadow: 0px 5px 60px 2px var(--primary-border-color);
+  box-shadow: 0px 5px 60px 2px var(--primary-color);
 
-  border: 3px solid var(--primary-border-color);
+  border: 3px solid var(--primary-color);
   border-bottom-left-radius: 30%;
   border-bottom-right-radius: 30%;
   border-top: none;
@@ -103,9 +98,9 @@ const FooterLogo = styled.div`
 
   font-family: "TiltPrism";
   background-color: var(--primary-bg-color);
-  box-shadow: 0px 5px 60px 2px var(--primary-border-color);
+  box-shadow: 0px 5px 60px 2px var(--primary-color);
 
-  border: 3px solid var(--primary-border-color);
+  border: 3px solid var(--primary-color);
   border-top-left-radius: 30%;
   border-top-right-radius: 30%;
   border-bottom: none;

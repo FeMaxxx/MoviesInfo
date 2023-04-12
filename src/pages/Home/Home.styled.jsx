@@ -1,85 +1,18 @@
 import styled from "@emotion/styled";
-
-import { Link } from "react-router-dom";
+import { BsArrowUpCircle } from "react-icons/bs";
 
 const Main = styled.main`
+  position: relative;
   padding: 40px 40px;
 
-  min-height: 800px;
+  min-height: 70vh;
 `;
 
 const Title = styled.h1`
   margin-bottom: 30px;
 
   text-align: center;
-  font-size: 30px;
-`;
-
-const ButtonsList = styled.ul`
-  display: flex;
-  justify-content: center;
-  gap: 100px;
-`;
-
-const Buttons = styled.button`
-  margin-bottom: 40px;
-  width: 80px;
-  height: 40px;
-  background: none;
-  border: 3px solid var(--primary-border-color);
-  border-radius: 50%;
-  box-shadow: 0px 7px 0px 2px var(--primary-border-color);
-
-  font-size: 14px;
-  font-weight: 700;
-
-  transition: transform var(--animation), box-shadow var(--animation);
-
-  &:hover {
-    transform: translateY(7px);
-    box-shadow: none;
-  }
-`;
-
-const MoviesList = styled.ul`
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 30px;
-`;
-
-const MovieItem = styled.li`
-  width: calc((1214px - 90px) / 4);
-  text-align: center;
-  border: 1px solid var(--primary-border-color);
-
-  box-shadow: 0px 10px 2px 2px var(--primary-border-color);
-
-  transition: transform var(--animation), box-shadow var(--animation);
-
-  &:hover {
-    transform: translateY(10px);
-    box-shadow: none;
-  }
-`;
-
-const MovieLink = styled(Link)`
-  display: block;
-
-  height: 100%;
-`;
-
-const Poster = styled.img`
-  width: 100%;
-`;
-
-const MovieTitle = styled.h3`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 10px;
-  font-size: 16px;
-  height: 60px;
+  font-size: 36px;
 `;
 
 const LoadMoreBtn = styled.button`
@@ -91,9 +24,9 @@ const LoadMoreBtn = styled.button`
   width: 120px;
   height: 50px;
   background: none;
-  border: 3px solid var(--primary-border-color);
+  border: 3px solid #ffffff;
   border-radius: 50%;
-  box-shadow: 0px 7px 0px 2px var(--primary-border-color);
+  box-shadow: 0px 7px 0px 2px var(--primary-color);
 
   font-size: 16px;
   font-weight: 700;
@@ -106,15 +39,35 @@ const LoadMoreBtn = styled.button`
   }
 `;
 
-export {
-  Main,
-  Title,
-  ButtonsList,
-  Buttons,
-  MoviesList,
-  MovieItem,
-  MovieLink,
-  Poster,
-  MovieTitle,
-  LoadMoreBtn,
-};
+const UpBtn = styled.button`
+  position: absolute;
+  right: 120px;
+  bottom: 0px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+
+  background: none;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0px 5px 0px 2px var(--primary-color),
+    inset 0px 0px 0px 6px var(--primary-color);
+
+  transition: transform var(--animation), box-shadow var(--animation);
+
+  &:hover {
+    transform: translateY(5px);
+    box-shadow: none;
+  }
+`;
+
+const UpBtnIcon = styled(BsArrowUpCircle)`
+  width: 32px;
+  height: 32px;
+  color: var(--primary-color);
+`;
+
+export { Main, Title, LoadMoreBtn, UpBtn, UpBtnIcon };

@@ -27,7 +27,7 @@
 :root {
   --primary-bg-color: #0f1522;
   --primary-text-color: rgb(190, 190, 190);
-  --primary-border-color: rgb(120, 255, 244);
+  --primary-color: rgb(120, 255, 244);
 
   --animation: 200ms ease-out;
 }
