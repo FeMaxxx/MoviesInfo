@@ -43,12 +43,6 @@ const Home = () => {
   }, [filter]);
 
   useEffect(() => {
-    if (ref.current === true && page === 1) {
-      return;
-    } else {
-      ref.current = true;
-    }
-
     setStatus("loading");
     searchPopularMovies(filter, page)
       .then((movies) => {
