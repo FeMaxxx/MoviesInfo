@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/goit-react-hw-05-movies/static/css/main.e3959320.css",
-    "main.js": "/goit-react-hw-05-movies/static/js/main.49fe1554.js",
+    "main.css": "/goit-react-hw-05-movies/static/css/main.bdf7768b.css",
+    "main.js": "/goit-react-hw-05-movies/static/js/main.cca1b61c.js",
     "static/media/TiltPrism-Regular.ttf": "/goit-react-hw-05-movies/static/media/TiltPrism-Regular.7a75d9409032f22c51a6.ttf",
     "static/media/RobotoSlab-Bold.ttf": "/goit-react-hw-05-movies/static/media/RobotoSlab-Bold.13427f7889b90039c514.ttf",
     "static/media/RobotoSlab-Regular.ttf": "/goit-react-hw-05-movies/static/media/RobotoSlab-Regular.6065b9ecc22c5d132f5c.ttf",
     "index.html": "/goit-react-hw-05-movies/index.html",
-    "main.e3959320.css.map": "/goit-react-hw-05-movies/static/css/main.e3959320.css.map",
-    "main.49fe1554.js.map": "/goit-react-hw-05-movies/static/js/main.49fe1554.js.map"
+    "main.bdf7768b.css.map": "/goit-react-hw-05-movies/static/css/main.bdf7768b.css.map",
+    "main.cca1b61c.js.map": "/goit-react-hw-05-movies/static/js/main.cca1b61c.js.map"
   },
   "entrypoints": [
-    "static/css/main.e3959320.css",
-    "static/js/main.49fe1554.js"
+    "static/css/main.bdf7768b.css",
+    "static/js/main.cca1b61c.js"
   ]
 }
