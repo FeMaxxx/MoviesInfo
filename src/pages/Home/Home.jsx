@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Loader from "components/Loader/Loader";
 
 import {
@@ -21,7 +21,6 @@ const Home = () => {
   const [filter, setFilter] = useState("week");
   const [status, setStatus] = useState("loading");
   const [page, setPage] = useState(1);
-  const ref = useRef(false);
 
   useEffect(() => {
     const weekBtn = document.querySelector("[data-btn-week]");
@@ -48,8 +47,13 @@ const Home = () => {
       .then((movies) => {
         console.log(movies.data.results);
 
-        setPopularMovies((prevState) => [...prevState, ...movies.data.results]);
-        setStatus("good");
+        setTimeout(() => {
+          setPopularMovies((prevState) => [
+            ...prevState,
+            ...movies.data.results,
+          ]);
+          setStatus("good");
+        }, 1000);
       })
       .catch(() => {
         console.log("error");
@@ -63,7 +67,6 @@ const Home = () => {
       setFilter("day");
     }
 
-    ref.current = false;
     setPopularMovies([]);
     setPage(1);
   };
@@ -91,27 +94,28 @@ const Home = () => {
       {status === "loading" && <Loader />}
 
       {popularMovies && (
-        <>
-          <MoviesList>
-            {popularMovies.map((movie) => {
-              const { id } = movie;
-              const img = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
-              const linkTo = `/movies/${id}`;
+        <MoviesList>
+          {popularMovies.map((movie) => {
+            const { id } = movie;
+            const img = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
+            const linkTo = `/movies/${id}`;
 
-              return (
-                <MovieItem key={id}>
-                  <MovieLink to={linkTo} type="button">
-                    <Poster src={img} alt="MoviePoster" />
-                    <MovieTitle>{movie.title}</MovieTitle>
-                  </MovieLink>
-                </MovieItem>
-              );
-            })}
-          </MoviesList>
-          <LoadMoreBtn onClick={handleLoadMoreButton} type="button">
-            Load more
-          </LoadMoreBtn>
-        </>
+            return (
+              <MovieItem key={id}>
+                <MovieLink to={linkTo} type="button">
+                  <Poster src={img} alt="MoviePoster" />
+                  <MovieTitle>{movie.title}</MovieTitle>
+                </MovieLink>
+              </MovieItem>
+            );
+          })}
+        </MoviesList>
+      )}
+
+      {status !== "loading" && (
+        <LoadMoreBtn onClick={handleLoadMoreButton} type="button">
+          Load more
+        </LoadMoreBtn>
       )}
     </Main>
   );
