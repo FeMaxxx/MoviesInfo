@@ -1,1 +1,7 @@
-export { searchPopularMoviesByDay, searchMoviesDetails } from "./api";
+export {
+  searchPopularMovies,
+  searchMoviesDetails,
+  searchMoviesByName,
+  searchCast,
+  searchReviews,
+} from "./api";

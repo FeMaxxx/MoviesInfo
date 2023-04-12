@@ -1,30 +1,53 @@
 import axios from "axios";
 
-const searchPopularMoviesByDay = async (page) => {
-  const baceURL = "https://api.themoviedb.org/3/trending/movie/day";
-  const config = {
+axios.defaults.baseURL = "https://api.themoviedb.org/3/";
+axios.defaults.params = {
+  api_key: "eabf3be64fad896cb931bdc5f8933714",
+};
+
+const searchPopularMovies = async (filter, page) => {
+  const response = await axios.get(`trending/movie/${filter}`, {
     params: {
-      api_key: "eabf3be64fad896cb931bdc5f8933714",
       page,
     },
-  };
-
-  const response = await axios.get(baceURL, config);
+  });
 
   return response;
 };
 
 const searchMoviesDetails = async (id) => {
-  const baceURL = `https://api.themoviedb.org/3/movie/${id}`;
-  const config = {
-    params: {
-      api_key: "eabf3be64fad896cb931bdc5f8933714",
-    },
-  };
-
-  const response = await axios.get(baceURL, config);
+  const response = await axios.get(`movie/${id}`);
 
   return response;
 };
 
-export { searchPopularMoviesByDay, searchMoviesDetails };
+const searchMoviesByName = async (name) => {
+  const response = await axios.get("search/movie", {
+    params: {
+      query: name,
+      page: 1,
+    },
+  });
+
+  return response;
+};
+
+const searchCast = async (id) => {
+  const response = await axios.get(`movie/${id}/credits`);
+
+  return response;
+};
+
+const searchReviews = async (id) => {
+  const response = await axios.get(`movie/${id}/reviews`);
+
+  return response;
+};
+
+export {
+  searchPopularMovies,
+  searchMoviesDetails,
+  searchMoviesByName,
+  searchCast,
+  searchReviews,
+};

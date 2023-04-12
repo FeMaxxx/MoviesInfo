@@ -5,27 +5,52 @@ import {
   Header,
   Nav,
   Links,
-  GG,
+  HeaderLogo,
+  Footer,
+  FooterLogo,
 } from "./SharedLayout.styled";
 
 const SharedLayout = () => {
+  const dropButton = (e) => {
+    if (e.currentTarget.classList.contains("active")) {
+      const button = e.currentTarget;
+      button.classList.add("drop");
+
+      setTimeout(() => {
+        button.classList.remove("drop");
+      }, 1000);
+    }
+  };
+
   return (
     <Container>
       <Border></Border>
       <Header>
         <Nav>
-          <Links to="/" end>
+          <Links onClick={dropButton} to="/" end>
             Home
           </Links>
-          <GG>
+
+          <HeaderLogo>
             <Link to="/">
-              <h1>MoviesFinder</h1>
+              <h1>Movies.Info</h1>
             </Link>
-          </GG>
-          <Links to="/movies">Movies</Links>
+          </HeaderLogo>
+
+          <Links onClick={dropButton} to="/movies">
+            Movies
+          </Links>
         </Nav>
       </Header>
       <Outlet />
+      <Footer>
+        <FooterLogo>
+          <Link to="/">
+            <h1>Movies.Info</h1>
+          </Link>
+        </FooterLogo>
+      </Footer>
+      <Border></Border>
     </Container>
   );
 };
