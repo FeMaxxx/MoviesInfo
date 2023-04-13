@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
+import { AiOutlineFileImage } from "react-icons/ai";
 
-const MoviesList = styled.ul`
+const Movies = styled.ul`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -25,12 +26,18 @@ const MovieItem = styled.li`
 
 const MovieLink = styled(Link)`
   display: block;
-
   height: 100%;
 `;
 
 const Poster = styled.img`
   width: 100%;
+  height: 418.5px;
+`;
+
+const NotFoundPoster = styled(AiOutlineFileImage)`
+  height: 418.5px;
+  width: 100%;
+  color: var(--primary-color);
 `;
 
 const MovieTitle = styled.h3`
@@ -42,4 +49,4 @@ const MovieTitle = styled.h3`
   height: 60px;
 `;
 
-export { MoviesList, MovieItem, MovieLink, Poster, MovieTitle };
+export { Movies, MovieItem, MovieLink, Poster, NotFoundPoster, MovieTitle };

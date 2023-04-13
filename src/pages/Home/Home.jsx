@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
+import Main from "components/Main";
 import Loader from "components/Loader/Loader";
-
 import FilterButtons from "components/FilterButtons";
-import PopularMoviesList from "components/PopularMoviesList";
+import MoviesList from "components/MoviesList";
 import ErrorMessage from "components/ErrorMessage";
+import LoadMoreBtn from "components/LoadMoreBtn";
+import UpButton from "components/UpButton/UpButton";
 
-import { Main, Title, LoadMoreBtn, UpBtn, UpBtnIcon } from "./Home.styled";
+import { Title } from "./Home.styled";
 
 import { searchPopularMovies } from "components/Api";
 
@@ -18,6 +20,7 @@ const Home = () => {
   const [status, setStatus] = useState("loading");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(2);
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   useEffect(() => {
     const weekBtn = document.querySelector("[data-btn-week]");
@@ -41,7 +44,6 @@ const Home = () => {
   useEffect(() => {
     searchPopularMovies("week", 1)
       .then((movies) => {
-        console.log(movies.data);
         setMoviesByWeek(movies.data.results);
         setPopularMovies(movies.data.results);
         setStatus("good");
@@ -54,7 +56,6 @@ const Home = () => {
 
     searchPopularMovies("day", 1)
       .then((movies) => {
-        console.log(movies.data.results);
         setMoviesByDay(movies.data.results);
         setStatus("good");
       })
@@ -69,16 +70,26 @@ const Home = () => {
 
     searchPopularMovies(filter, page)
       .then((movies) => {
-        console.log(movies.data);
-
         setTotalPages(movies.data.total_pages);
         setPopularMovies((prevState) => [...prevState, ...movies.data.results]);
         setStatus("good");
       })
       .catch(() => {
-        console.log("error");
+        setStatus("error");
       });
   }, [filter, page]);
+
+  useEffect(() => {
+    const setScroll = () => {
+      setScrollPosition(window.scrollY);
+    };
+
+    window.addEventListener("scroll", setScroll);
+
+    return () => {
+      window.removeEventListener("scroll", setScroll);
+    };
+  }, []);
 
   const handleBtnFilter = (e) => {
     if (e.target.hasAttribute("data-btn-week")) {
@@ -99,31 +110,23 @@ const Home = () => {
     setStatus("loading");
   };
 
-  const handleUpBtn = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   return (
     <Main>
       <Title>Trending movies</Title>
+
       <FilterButtons handleBtnFilter={handleBtnFilter} />
 
-      {popularMovies && <PopularMoviesList popularMovies={popularMovies} />}
+      {popularMovies && <MoviesList movies={popularMovies} />}
 
       {status === "error" && <ErrorMessage />}
 
       {status === "loading" && <Loader />}
 
-      {status !== "loading" && status !== "error" && totalPages > page && (
-        <>
-          <LoadMoreBtn onClick={handleLoadMoreButton} type="button">
-            Load more
-          </LoadMoreBtn>
-          <UpBtn onClick={handleUpBtn} type="button">
-            <UpBtnIcon />
-          </UpBtn>
-        </>
+      {status === "good" && totalPages > page && (
+        <LoadMoreBtn onClick={handleLoadMoreButton} />
       )}
+
+      {scrollPosition >= 500 && <UpButton />}
     </Main>
   );
 };

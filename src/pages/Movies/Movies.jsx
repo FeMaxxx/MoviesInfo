@@ -1,59 +1,87 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
-
 import { searchMoviesByName } from "components/Api";
 
+import Main from "components/Main";
+import SearchForm from "components/SearchForm";
+import Idle from "components/Idle";
+import ErrorMessage from "components/ErrorMessage";
+import PopularMoviesList from "components/MoviesList";
+import Loader from "components/Loader/Loader";
+import LoadMoreBtn from "components/LoadMoreBtn";
+import UpButton from "components/UpButton";
+
 const Movies = () => {
-  const { register, handleSubmit } = useForm();
   const [movies, setMovies] = useState([]);
   const [movieName, setMovieName] = useState(null);
+  const [status, setStatus] = useState("idle");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   useEffect(() => {
     if (!movieName) return;
 
-    searchMoviesByName(movieName)
+    searchMoviesByName(movieName, page)
       .then((movies) => {
-        setMovies(movies.data.results);
-        console.log(movies.data.results);
+        setMovies((prevState) => [...prevState, ...movies.data.results]);
+        setTotalPages(movies.data.total_pages);
+        if (movies.data.results.length) {
+          setStatus("good");
+        } else {
+          setStatus("error");
+        }
       })
       .catch(() => {
-        console.log("error");
+        setStatus("error");
       });
-  }, [movieName]);
+  }, [movieName, page]);
+
+  useEffect(() => {
+    const setScroll = () => {
+      setScrollPosition(window.scrollY);
+    };
+
+    window.addEventListener("scroll", setScroll);
+
+    return () => {
+      window.removeEventListener("scroll", setScroll);
+    };
+  }, []);
 
   const onSubmit = (e) => {
-    setMovieName(e.movieName);
+    const name = e.movieName.toLowerCase().trim();
+
+    if (name === movieName || name === "") return;
+
+    setStatus("loading");
+    setMovies([]);
+    setPage(1);
+    setMovieName(name);
+  };
+
+  const handleLoadMoreButton = () => {
+    setPage(page + 1);
+    setStatus("loading");
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label>
-          <input {...register("movieName")} type="text"></input>;
-        </label>
+    <Main>
+      <SearchForm onSubmit={onSubmit} />
 
-        <button type="submit">search</button>
-      </form>
+      {movies && <PopularMoviesList movies={movies} />}
 
-      {movies.length > 0 ? (
-        <ul>
-          {movies.map((movie) => {
-            const { id } = movie;
-            const linkTo = `/movies/${id}`;
-            return (
-              <li key={id}>
-                <Link to={linkTo} type="button">
-                  {movie.title}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      ) : (
-        <p>sorry</p>
+      {status === "idle" && <Idle />}
+
+      {status === "error" && <ErrorMessage />}
+
+      {status === "loading" && <Loader />}
+
+      {status === "good" && totalPages > page && (
+        <LoadMoreBtn onClick={handleLoadMoreButton} />
       )}
-    </>
+
+      {scrollPosition >= 500 && <UpButton />}
+    </Main>
   );
 };
 

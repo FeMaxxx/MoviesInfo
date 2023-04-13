@@ -21,11 +21,11 @@ const searchMoviesDetails = async (id) => {
   return response;
 };
 
-const searchMoviesByName = async (name) => {
+const searchMoviesByName = async (name, page) => {
   const response = await axios.get("search/movie", {
     params: {
       query: name,
-      page: 1,
+      page,
     },
   });
 
