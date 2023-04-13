@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/goit-react-hw-05-movies/static/css/main.bdf7768b.css",
-    "main.js": "/goit-react-hw-05-movies/static/js/main.cca1b61c.js",
+    "main.js": "/goit-react-hw-05-movies/static/js/main.eff37092.js",
     "static/media/TiltPrism-Regular.ttf": "/goit-react-hw-05-movies/static/media/TiltPrism-Regular.7a75d9409032f22c51a6.ttf",
     "static/media/RobotoSlab-Bold.ttf": "/goit-react-hw-05-movies/static/media/RobotoSlab-Bold.13427f7889b90039c514.ttf",
     "static/media/RobotoSlab-Regular.ttf": "/goit-react-hw-05-movies/static/media/RobotoSlab-Regular.6065b9ecc22c5d132f5c.ttf",
     "index.html": "/goit-react-hw-05-movies/index.html",
     "main.bdf7768b.css.map": "/goit-react-hw-05-movies/static/css/main.bdf7768b.css.map",
-    "main.cca1b61c.js.map": "/goit-react-hw-05-movies/static/js/main.cca1b61c.js.map"
+    "main.eff37092.js.map": "/goit-react-hw-05-movies/static/js/main.eff37092.js.map"
   },
   "entrypoints": [
     "static/css/main.bdf7768b.css",
-    "static/js/main.cca1b61c.js"
+    "static/js/main.eff37092.js"
   ]
 }
