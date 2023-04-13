@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-
 import { Form, Input, SearchButton, SearchIcon } from "./SearchForm.styled";
 
 const SearchForm = ({ onSubmit }) => {

@@ -48,11 +48,6 @@ const Links = styled(NavLink)`
     text-align: end;
   }
 
-  &.active {
-    box-shadow: none;
-    transform: translateY(10px);
-  }
-
   &:hover {
     box-shadow: none;
     transform: translateY(10px);

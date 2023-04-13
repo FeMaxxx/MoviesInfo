@@ -1,4 +1,5 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import {
   Container,
   Border,
@@ -11,8 +12,24 @@ import {
 } from "./SharedLayout.styled";
 
 const SharedLayout = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const homeBtn = document.querySelector("[data-home]");
+    const moviesBtn = document.querySelector("[data-movies]");
+
+    if (location.pathname === "/") {
+      homeBtn.classList.add("active-page");
+    } else if (location.pathname === "/movies") {
+      moviesBtn.classList.add("active-page");
+    } else {
+      homeBtn.classList.remove("active-page");
+      moviesBtn.classList.remove("active-page");
+    }
+  }, [location.pathname]);
+
   const dropButton = (e) => {
-    if (e.currentTarget.classList.contains("active")) {
+    if (e.currentTarget.classList.contains("active-page")) {
       const button = e.currentTarget;
       button.classList.add("drop");
 
@@ -27,7 +44,7 @@ const SharedLayout = () => {
       <Border></Border>
       <Header>
         <Nav>
-          <Links onClick={dropButton} to="/" end>
+          <Links onClick={dropButton} to="/" end data-home>
             Home
           </Links>
 
@@ -37,7 +54,7 @@ const SharedLayout = () => {
             </Link>
           </HeaderLogo>
 
-          <Links onClick={dropButton} to="/movies">
+          <Links onClick={dropButton} to="/movies" data-movies>
             Movies
           </Links>
         </Nav>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { searchMoviesByName } from "components/Api";
+import { useSearchParams } from "react-router-dom";
 
 import Main from "components/Main";
 import SearchForm from "components/SearchForm";
@@ -17,6 +18,15 @@ const Movies = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const params = searchParams.get("query");
+
+  useEffect(() => {
+    if (params) {
+      setMovieName(params);
+      setStatus("loading");
+    }
+  }, [params]);
 
   useEffect(() => {
     if (!movieName) return;
@@ -52,7 +62,7 @@ const Movies = () => {
     const name = e.movieName.toLowerCase().trim();
 
     if (name === movieName || name === "") return;
-
+    setSearchParams(name !== "" ? { query: name } : {});
     setStatus("loading");
     setMovies([]);
     setPage(1);

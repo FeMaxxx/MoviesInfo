@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Link, Outlet } from "react-router-dom";
 
+import Main from "components/Main";
+
 import { searchMoviesDetails } from "components/Api";
 
 const MovieDetails = () => {
@@ -23,7 +25,7 @@ const MovieDetails = () => {
   const img = `https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`;
 
   return (
-    <>
+    <Main>
       <div>
         <h2>{movieDetails.title}</h2>
         <img src={img} alt="Poster" />
@@ -44,7 +46,7 @@ const MovieDetails = () => {
       </div>
 
       <Outlet />
-    </>
+    </Main>
   );
 };
 
