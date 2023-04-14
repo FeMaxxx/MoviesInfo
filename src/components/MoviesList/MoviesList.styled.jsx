@@ -10,6 +10,7 @@ const Movies = styled.ul`
 `;
 
 const MovieItem = styled.li`
+  position: relative;
   width: calc((1214px - 90px) / 4);
   text-align: center;
   border: 1px solid #ffffff;
@@ -22,6 +23,17 @@ const MovieItem = styled.li`
     transform: translateY(10px);
     box-shadow: none;
   }
+`;
+
+const Date = styled.div`
+  position: absolute;
+  width: 80px;
+  top: 0px;
+  left: 0px;
+  font-size: 14px;
+  border-right: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  background-color: var(--primary-bg-color);
 `;
 
 const MovieLink = styled(Link)`
@@ -49,4 +61,12 @@ const MovieTitle = styled.h3`
   height: 60px;
 `;
 
-export { Movies, MovieItem, MovieLink, Poster, NotFoundPoster, MovieTitle };
+export {
+  Movies,
+  MovieItem,
+  Date,
+  MovieLink,
+  Poster,
+  NotFoundPoster,
+  MovieTitle,
+};

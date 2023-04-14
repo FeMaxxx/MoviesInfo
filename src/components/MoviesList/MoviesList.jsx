@@ -1,6 +1,9 @@
+import { useLocation } from "react-router-dom";
+
 import {
   Movies,
   MovieItem,
+  Date,
   MovieLink,
   Poster,
   NotFoundPoster,
@@ -8,6 +11,9 @@ import {
 } from "./MoviesList.styled";
 
 const MoviesList = ({ movies }) => {
+  const location = useLocation();
+  const locationString = `${location.pathname}${location.search}`;
+
   return (
     <Movies>
       {movies.map((movie) => {
@@ -17,7 +23,12 @@ const MoviesList = ({ movies }) => {
 
         return (
           <MovieItem key={id}>
-            <MovieLink to={linkTo} type="button">
+            <MovieLink
+              to={linkTo}
+              state={{ from: locationString }}
+              type="button"
+            >
+              <Date>{movie.release_date}</Date>
               {poster_path ? (
                 <Poster src={img} alt="MoviePoster" />
               ) : (
