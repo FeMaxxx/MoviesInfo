@@ -13,7 +13,7 @@ const AdditionalInfo = ({ locationString }) => {
         </li>
         <li>
           <Button state={{ from: locationString }} to="crew" type="button">
-            Show cast
+            Show crew
           </Button>
         </li>
         <li>
