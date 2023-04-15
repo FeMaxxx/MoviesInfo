@@ -82,7 +82,9 @@ const Movies = () => {
 
       {status === "idle" && <Idle />}
 
-      {status === "error" && <ErrorMessage />}
+      {status === "error" && (
+        <ErrorMessage message={"Sorry, we didn't find any movie"} />
+      )}
 
       {status === "loading" && <Loader />}
 

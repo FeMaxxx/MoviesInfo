@@ -14,9 +14,9 @@ import {
   NotFoundManPhoto,
   NotFoundWomanPhoto,
   LoaderBox,
-} from "./Cast.styled";
+} from "./Crew.styled";
 
-const Cast = () => {
+const Crew = () => {
   const { movieId } = useParams();
   const [actors, setActors] = useState([]);
   const [status, setStatus] = useState("loading");
@@ -27,8 +27,8 @@ const Cast = () => {
     searchCast(movieId)
       .then((cast) => {
         console.log(cast.data);
-        if (cast.data.cast.length !== 0) {
-          setActors(cast.data.cast);
+        if (cast.data.crew.length !== 0) {
+          setActors(cast.data.crew);
           setStatus("good");
         } else {
           setStatus("error");
@@ -49,18 +49,18 @@ const Cast = () => {
 
       {actors && (
         <CastList>
-          {actors.map((el) => {
+          {actors.map((el, index) => {
             const img = `https://image.tmdb.org/t/p/w500/${el.profile_path}`;
 
             return (
-              <Item key={el.id}>
+              <Item key={index}>
                 {el.profile_path && <Img src={img} alt="Piple" />}
                 {el.gender === 2 && !el.profile_path && <NotFoundManPhoto />}
                 {el.gender === 1 && !el.profile_path && <NotFoundWomanPhoto />}
                 {el.gender === 0 && !el.profile_path && <NotFoundManPhoto />}
 
                 <Name>{el.name}</Name>
-                <Character>{el.character}</Character>
+                <Character>{el.department}</Character>
               </Item>
             );
           })}
@@ -74,4 +74,4 @@ const Cast = () => {
   );
 };
 
-export default Cast;
+export default Crew;

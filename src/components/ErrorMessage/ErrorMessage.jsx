@@ -1,9 +1,9 @@
 import { ErrorContainer, Title, Icon } from "./ErrorMessage.styled";
 
-const ErrorMessage = () => {
+const ErrorMessage = ({ message }) => {
   return (
     <ErrorContainer>
-      <Title>Sorry, we didn't find any movie</Title>
+      <Title>{message}</Title>
       <Icon />
     </ErrorContainer>
   );

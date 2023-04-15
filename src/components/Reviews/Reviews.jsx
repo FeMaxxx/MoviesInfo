@@ -1,41 +1,71 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-
+import { format } from "date-fns";
 import { searchReviews } from "components/Api";
+import ErrorMessage from "components/ErrorMessage/ErrorMessage";
+
+import Loader from "components/Loader/Loader";
+
+import {
+  Container,
+  ReviewsList,
+  Item,
+  Author,
+  DateText,
+  Review,
+  LoaderBox,
+} from "./Reviews.styled";
 
 const Reviews = () => {
   const { movieId } = useParams();
-
   const [reviews, setReviews] = useState([]);
+  const [status, setStatus] = useState("loading");
 
   useEffect(() => {
+    setStatus("loading");
+
     searchReviews(movieId)
       .then((rev) => {
-        console.log(rev.data.results);
-        setReviews(rev.data.results);
+        if (rev.data.results.length !== 0) {
+          setReviews(rev.data.results);
+          setStatus("good");
+        } else {
+          setStatus("error");
+        }
       })
       .catch(() => {
-        console.log("error");
+        setStatus("error");
       });
   }, [movieId]);
 
   return (
-    <div>
-      {reviews.length > 0 ? (
-        <ul>
+    <Container>
+      {status === "loading" && (
+        <LoaderBox>
+          <Loader />
+        </LoaderBox>
+      )}
+
+      {reviews && (
+        <ReviewsList>
           {reviews.map((review) => {
+            const date = format(new Date(review.created_at), "dd MMMM yyyy");
+
             return (
-              <li key={review.id}>
-                <h4>{review.author}</h4>
-                <p>{review.content}</p>
-              </li>
+              <Item key={review.id}>
+                <Author>{review.author}</Author>
+                <DateText>{date}</DateText>
+                <Review>{review.content}</Review>
+              </Item>
             );
           })}
-        </ul>
-      ) : (
-        <p>opps</p>
+        </ReviewsList>
       )}
-    </div>
+
+      {status === "error" && (
+        <ErrorMessage message={"Sorry, we didn't find this information"} />
+      )}
+    </Container>
   );
 };
 
