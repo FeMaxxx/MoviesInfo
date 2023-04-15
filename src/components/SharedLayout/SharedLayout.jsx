@@ -1,5 +1,7 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { Suspense } from "react";
+import SuspenseBox from "components/SuspenseBox";
 import {
   Container,
   Border,
@@ -59,7 +61,11 @@ const SharedLayout = () => {
           </Links>
         </Nav>
       </Header>
-      <Outlet />
+
+      <Suspense fallback={<SuspenseBox />}>
+        <Outlet />
+      </Suspense>
+
       <Footer>
         <FooterLogo>
           <Link to="/">

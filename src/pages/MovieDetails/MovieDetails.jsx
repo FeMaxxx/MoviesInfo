@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams, Outlet, useNavigate, useLocation } from "react-router-dom";
+import { Suspense } from "react";
 
 import Main from "components/Main";
 import AdditionalInfo from "components/AdditionalInfo";
-import AllMovieInfo from "components/AllMovieInfo/AllMovieInfo";
+import AllMovieInfo from "components/AllMovieInfo";
+import SuspenseBox from "components/SuspenseBox";
 
 import {
   TitleBox,
@@ -63,7 +65,9 @@ const MovieDetails = () => {
 
       <AdditionalInfo locationString={locationString} />
 
-      <Outlet />
+      <Suspense fallback={<SuspenseBox />}>
+        <Outlet />
+      </Suspense>
     </Main>
   );
 };
