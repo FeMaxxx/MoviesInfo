@@ -2,6 +2,6 @@ export {
   searchPopularMovies,
   searchMoviesDetails,
   searchMoviesByName,
-  searchCast,
+  searchCastAndCrew,
   searchReviews,
 } from "./api";

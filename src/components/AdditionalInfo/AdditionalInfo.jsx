@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { Container, Title, ButtonList, Button } from "./AdditionalInfo.styled";
 
 const AdditionalInfo = ({ locationString }) => {
@@ -27,3 +28,7 @@ const AdditionalInfo = ({ locationString }) => {
 };
 
 export default AdditionalInfo;
+
+AdditionalInfo.propTypes = {
+  locationString: PropTypes.string.isRequired,
+};

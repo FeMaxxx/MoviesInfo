@@ -32,7 +32,7 @@ const searchMoviesByName = async (name, page) => {
   return response;
 };
 
-const searchCast = async (id) => {
+const searchCastAndCrew = async (id) => {
   const response = await axios.get(`movie/${id}/credits`);
 
   return response;
@@ -48,6 +48,6 @@ export {
   searchPopularMovies,
   searchMoviesDetails,
   searchMoviesByName,
-  searchCast,
+  searchCastAndCrew,
   searchReviews,
 };

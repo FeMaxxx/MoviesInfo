@@ -9,7 +9,7 @@ import UpButton from "components/UpButton/UpButton";
 
 import { Title } from "./Home.styled";
 
-import { searchPopularMovies } from "components/Api";
+import { searchPopularMovies } from "Api";
 
 const Home = () => {
   const [popularMovies, setPopularMovies] = useState([]);

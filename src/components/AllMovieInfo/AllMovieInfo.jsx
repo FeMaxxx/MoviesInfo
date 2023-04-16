@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import PropTypes from "prop-types";
 import {
   AllInfo,
   InfoBox,
@@ -9,6 +10,7 @@ import {
 } from "./AllMovieInfo.styled";
 
 const AllMovieInfo = ({ movieDetails }) => {
+  console.log(movieDetails);
   const { vote_average, tagline, release_date, genres, runtime, overview } =
     movieDetails;
 
@@ -69,3 +71,14 @@ const AllMovieInfo = ({ movieDetails }) => {
 };
 
 export default AllMovieInfo;
+
+AllMovieInfo.propTypes = {
+  movieDetails: PropTypes.shape({
+    vote_average: PropTypes.number,
+    tagline: PropTypes.string,
+    release_date: PropTypes.string,
+    genres: PropTypes.array,
+    runtime: PropTypes.number,
+    overview: PropTypes.string,
+  }),
+};

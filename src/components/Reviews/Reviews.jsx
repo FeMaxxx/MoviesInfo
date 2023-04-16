@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { format } from "date-fns";
-import { searchReviews } from "components/Api";
+import { searchReviews } from "Api";
 import ErrorMessage from "components/ErrorMessage/ErrorMessage";
 
 import Loader from "components/Loader/Loader";

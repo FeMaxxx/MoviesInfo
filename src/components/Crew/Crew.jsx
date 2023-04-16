@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { searchCast } from "components/Api";
-import Loader from "components/Loader/Loader";
-import ErrorMessage from "components/ErrorMessage/ErrorMessage";
+import { searchCastAndCrew } from "Api";
+import Loader from "components/Loader";
+import ErrorMessage from "components/ErrorMessage";
 
 import {
   Container,
@@ -24,7 +24,7 @@ const Crew = () => {
   useEffect(() => {
     setStatus("loading");
 
-    searchCast(movieId)
+    searchCastAndCrew(movieId)
       .then((cast) => {
         console.log(cast.data);
         if (cast.data.crew.length !== 0) {

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Suspense } from "react";
+import { searchMoviesDetails } from "Api";
 
 import Main from "components/Main";
 import AdditionalInfo from "components/AdditionalInfo";
@@ -17,8 +18,6 @@ import {
   Poster,
   NotFoundPoster,
 } from "./MovieDetails.styled";
-
-import { searchMoviesDetails } from "components/Api";
 
 const MovieDetails = () => {
   const location = useLocation();
