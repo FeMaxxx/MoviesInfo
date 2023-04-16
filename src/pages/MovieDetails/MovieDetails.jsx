@@ -25,7 +25,7 @@ const MovieDetails = () => {
   const navigate = useNavigate();
   const { movieId } = useParams();
 
-  const [movieDetails, setMovieDetails] = useState([]);
+  const [movieDetails, setMovieDetails] = useState({});
   const img = `https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`;
 
   useEffect(() => {

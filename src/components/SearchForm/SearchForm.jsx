@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -31,3 +32,7 @@ const SearchForm = ({ onSubmit }) => {
 };
 
 export default SearchForm;
+
+SearchForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};

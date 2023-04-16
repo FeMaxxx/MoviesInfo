@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { ErrorContainer, Title, Icon } from "./ErrorMessage.styled";
 
 const ErrorMessage = ({ message }) => {
@@ -10,3 +11,7 @@ const ErrorMessage = ({ message }) => {
 };
 
 export default ErrorMessage;
+
+ErrorMessage.propTypes = {
+  message: PropTypes.string.isRequired,
+};

@@ -10,7 +10,6 @@ import {
 } from "./AllMovieInfo.styled";
 
 const AllMovieInfo = ({ movieDetails }) => {
-  console.log(movieDetails);
   const { vote_average, tagline, release_date, genres, runtime, overview } =
     movieDetails;
 

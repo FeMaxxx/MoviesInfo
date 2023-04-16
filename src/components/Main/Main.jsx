@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { MainContainer } from "./Main.styled";
 
 const Main = ({ children }) => {
@@ -5,3 +6,7 @@ const Main = ({ children }) => {
 };
 
 export default Main;
+
+Main.propTypes = {
+  children: PropTypes.any.isRequired,
+};

@@ -26,7 +26,6 @@ const Cast = () => {
 
     searchCastAndCrew(movieId)
       .then((cast) => {
-        console.log(cast.data);
         if (cast.data.cast.length !== 0) {
           setActors(cast.data.cast);
           setStatus("good");

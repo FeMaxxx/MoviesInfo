@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { ButtonsList, Buttons } from "./FilterButtons.styled";
 
 const FilterButtons = ({ handleBtnFilter }) => {
@@ -18,3 +19,7 @@ const FilterButtons = ({ handleBtnFilter }) => {
 };
 
 export default FilterButtons;
+
+FilterButtons.propTypes = {
+  handleBtnFilter: PropTypes.func.isRequired,
+};
