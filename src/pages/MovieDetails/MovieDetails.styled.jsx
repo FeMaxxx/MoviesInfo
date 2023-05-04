@@ -7,6 +7,7 @@ const TitleBox = styled.div`
   justify-content: center;
 
   margin-bottom: 50px;
+  min-height: 55px;
 `;
 
 const Title = styled.h2`

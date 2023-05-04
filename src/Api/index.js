@@ -1,7 +1,1 @@
-export {
-  searchPopularMovies,
-  searchMoviesDetails,
-  searchMoviesByName,
-  searchCastAndCrew,
-  searchReviews,
-} from "./api";
+export { searchCastAndCrew, searchReviews } from "./api";

@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useParams, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Suspense } from "react";
-import { searchMoviesDetails } from "Api";
-
+import Loader from "components/Loader";
 import Main from "components/Main";
 import AdditionalInfo from "components/AdditionalInfo";
 import AllMovieInfo from "components/AllMovieInfo";
@@ -18,56 +17,68 @@ import {
   Poster,
   NotFoundPoster,
 } from "./MovieDetails.styled";
+import { useDispatch } from "react-redux";
+import { searchMoviesDetails } from "redux/movies/operations";
+import { useMovies } from "hooks/useMovies";
 
 const MovieDetails = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const locationString = location.state?.from ?? "/movies";
   const navigate = useNavigate();
   const { movieId } = useParams();
 
-  const [movieDetails, setMovieDetails] = useState({});
-  const img = `https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`;
+  const { movieDetails, loading } = useMovies();
+  const img = `https://image.tmdb.org/t/p/w500/${movieDetails?.poster_path}`;
 
   useEffect(() => {
-    searchMoviesDetails(movieId)
-      .then((movie) => {
-        setMovieDetails(movie.data);
-      })
-      .catch(() => {
-        console.log("error");
-      });
-  }, [movieId]);
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
+
+  useEffect(() => {
+    dispatch(searchMoviesDetails(movieId));
+  }, [dispatch, movieId]);
 
   const goBack = () => {
     navigate(locationString, { replace: true });
   };
 
-  const { title, poster_path } = movieDetails;
-
   return (
-    <Main>
-      <TitleBox>
-        <Title>{title}</Title>
-      </TitleBox>
+    <>
+      {loading && <Loader />}
 
-      <Details>
-        <BackButton onClick={goBack} type="button">
-          <BackButtonIcon />
-        </BackButton>
+      <Main>
+        {movieDetails && !loading && (
+          <>
+            <TitleBox>
+              <Title>{movieDetails.title}</Title>
+            </TitleBox>
 
-        <PosterBox>
-          {poster_path ? <Poster src={img} alt="Poster" /> : <NotFoundPoster />}
-        </PosterBox>
+            <Details>
+              <BackButton onClick={goBack} type="button">
+                <BackButtonIcon />
+              </BackButton>
 
-        <AllMovieInfo movieDetails={movieDetails} />
-      </Details>
+              <PosterBox>
+                {movieDetails.poster_path ? (
+                  <Poster src={img} alt="Poster" />
+                ) : (
+                  <NotFoundPoster />
+                )}
+              </PosterBox>
 
-      <AdditionalInfo locationString={locationString} />
+              <AllMovieInfo movieDetails={movieDetails} />
+            </Details>
 
-      <Suspense fallback={<SuspenseBox />}>
-        <Outlet />
-      </Suspense>
-    </Main>
+            <AdditionalInfo locationString={locationString} />
+          </>
+        )}
+
+        <Suspense fallback={<SuspenseBox />}>
+          <Outlet />
+        </Suspense>
+      </Main>
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { searchMoviesByName } from "Api";
 import { useSearchParams } from "react-router-dom";
+import { searchMoviesByName } from "redux/movies/operations";
 
 import Main from "components/Main";
 import SearchForm from "components/SearchForm";
@@ -10,89 +10,77 @@ import PopularMoviesList from "components/MoviesList";
 import Loader from "components/Loader/Loader";
 import LoadMoreBtn from "components/LoadMoreBtn";
 import UpButton from "components/UpButton";
+import { useMovies } from "hooks/useMovies";
+import { useDispatch } from "react-redux";
+import {
+  setSearchMovies,
+  setPopularMovies,
+  setPage,
+} from "redux/movies/moviesSlice";
 
 const Movies = () => {
-  const [movies, setMovies] = useState([]);
+  const { searchMovies, loading, error, totalPages, page } = useMovies();
+  const dispatch = useDispatch();
+
   const [movieName, setMovieName] = useState(null);
-  const [status, setStatus] = useState("idle");
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [scrollPosition, setScrollPosition] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const params = searchParams.get("query");
 
   useEffect(() => {
     if (params) {
       setMovieName(params);
-      setStatus("loading");
     }
-  }, [params]);
-
-  useEffect(() => {
-    if (!movieName) return;
-
-    searchMoviesByName(movieName, page)
-      .then((movies) => {
-        setMovies((prevState) => [...prevState, ...movies.data.results]);
-        setTotalPages(movies.data.total_pages);
-        if (movies.data.results.length) {
-          setStatus("good");
-        } else {
-          setStatus("error");
-        }
-      })
-      .catch(() => {
-        setStatus("error");
-      });
-  }, [movieName, page]);
-
-  useEffect(() => {
-    const setScroll = () => {
-      setScrollPosition(window.scrollY);
-    };
-
-    window.addEventListener("scroll", setScroll);
 
     return () => {
-      window.removeEventListener("scroll", setScroll);
+      dispatch(setPopularMovies([]));
     };
-  }, []);
+  }, [dispatch, params]);
+
+  useEffect(() => {
+    if (!movieName || searchMovies.length > 0) return;
+
+    dispatch(searchMoviesByName({ name: movieName, page }));
+  }, [dispatch, movieName, page, searchMovies]);
 
   const onSubmit = (e) => {
     const name = e.movieName.toLowerCase().trim();
 
     if (name === movieName || name === "") return;
     setSearchParams(name !== "" ? { query: name } : {});
-    setStatus("loading");
-    setMovies([]);
-    setPage(1);
+    dispatch(setSearchMovies([]));
+    dispatch(setPage(1));
     setMovieName(name);
   };
 
+  useEffect(() => {
+    const scrollLocal = localStorage.getItem("scroll");
+
+    window.scrollTo({ top: scrollLocal, behavior: "instant" });
+  }, []);
+
   const handleLoadMoreButton = () => {
-    setPage(page + 1);
-    setStatus("loading");
+    dispatch(setPage(page + 1));
+
+    dispatch(searchMoviesByName({ name: movieName, page }));
   };
 
   return (
     <Main>
       <SearchForm onSubmit={onSubmit} />
 
-      {movies && <PopularMoviesList movies={movies} />}
+      {searchMovies && <PopularMoviesList movies={searchMovies} />}
 
-      {status === "idle" && <Idle />}
+      {searchMovies.length === 0 && !loading && !error && <Idle />}
 
-      {status === "error" && (
-        <ErrorMessage message={"Sorry, we didn't find any movie"} />
-      )}
+      {error && <ErrorMessage message={"Sorry, we didn't find any movie"} />}
 
-      {status === "loading" && <Loader />}
+      {loading && <Loader />}
 
-      {status === "good" && totalPages > page && (
+      {searchMovies.length > 0 && totalPages > page && !loading && (
         <LoadMoreBtn onClick={handleLoadMoreButton} />
       )}
 
-      {scrollPosition >= 500 && <UpButton />}
+      {searchMovies.length > 0 && <UpButton />}
     </Main>
   );
 };

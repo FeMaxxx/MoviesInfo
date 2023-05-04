@@ -5,33 +5,6 @@ axios.defaults.params = {
   api_key: "eabf3be64fad896cb931bdc5f8933714",
 };
 
-const searchPopularMovies = async (filter, page) => {
-  const response = await axios.get(`trending/movie/${filter}`, {
-    params: {
-      page,
-    },
-  });
-
-  return response;
-};
-
-const searchMoviesDetails = async (id) => {
-  const response = await axios.get(`movie/${id}`);
-
-  return response;
-};
-
-const searchMoviesByName = async (name, page) => {
-  const response = await axios.get("search/movie", {
-    params: {
-      query: name,
-      page,
-    },
-  });
-
-  return response;
-};
-
 const searchCastAndCrew = async (id) => {
   const response = await axios.get(`movie/${id}/credits`);
 
@@ -44,10 +17,4 @@ const searchReviews = async (id) => {
   return response;
 };
 
-export {
-  searchPopularMovies,
-  searchMoviesDetails,
-  searchMoviesByName,
-  searchCastAndCrew,
-  searchReviews,
-};
+export { searchCastAndCrew, searchReviews };
